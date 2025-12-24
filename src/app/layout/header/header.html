@@ -1,0 +1,22 @@
+<header class="header">
+
+    <h1 class="logo">poberi.me</h1>
+    <div class="mode-switch">
+      <button
+        [class.active]="mode === 'passenger'"
+        (click)="mode = 'passenger'">
+        Find a ride
+      </button>
+
+      <button
+        [class.active]="mode === 'driver'"
+        (click)="mode = 'driver'">
+        Drive
+      </button>
+  </div>
+    <div class="button-box">
+      <button routerLink="/login">Login</button>
+      <button routerLink="/register">Register</button>
+    </div>
+
+</header>

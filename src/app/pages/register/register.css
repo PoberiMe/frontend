@@ -1,0 +1,11 @@
+.register-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh; /* full viewport height */
+}
+
+.register-box {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,4 +1,38 @@
-/* You can add global styles to this file, and also import other style files */
 body {
   margin: 0;
+}
+
+button {
+  padding: 8px 16px;
+  margin: 4px;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+}
+
+input {
+  width: 250px;
+  padding: 10px 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.2s;
+  margin-bottom:10px
+}
+
+input:focus {
+  border-color: #58a7a5;
+  box-shadow: 0 0 5px rgba(88, 167, 165, 0.5);
+}
+
+label {
+  display: block;
+  margin-bottom: 6px; /* space between label and input */
+  font-weight: 500;    /* optional, makes it slightly bolder */
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
