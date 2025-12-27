@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  font-family: Arial, sans-serif;
 }
 
 button {
@@ -27,12 +28,5 @@ input:focus {
 
 label {
   display: block;
-  margin-bottom: 6px; /* space between label and input */
-  font-weight: 500;    /* optional, makes it slightly bolder */
-}
-
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
+  margin-bottom: 6px;
 }

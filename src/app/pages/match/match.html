@@ -1,0 +1,14 @@
+<div class="match-page">
+  <h2>Find a matching ride</h2>
+  <div class="map-container">
+    <form>
+      <label>From</label>
+      <input #fromInput type="text" placeholder="Enter starting location" />
+
+      <label>To</label>
+      <input #toInput type="text" placeholder="Enter destination" />
+    </form>
+
+    <google-map [center]="center" [zoom]="zoom"></google-map>
+  </div>
+</div>

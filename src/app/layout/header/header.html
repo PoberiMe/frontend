@@ -4,7 +4,9 @@
     <div class="mode-switch">
       <button
         [class.active]="mode === 'passenger'"
-        (click)="mode = 'passenger'">
+        (click)="mode = 'passenger'"
+        routerLink="/match"
+      >
         Find a ride
       </button>
 
