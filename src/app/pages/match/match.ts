@@ -1,17 +1,24 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-match',
-  standalone: true,
-  imports: [FormsModule, GoogleMapsModule],
+  imports: [FormsModule, GoogleMapsModule, NgIf],
   templateUrl: './match.html',
   styleUrls: ['./match.css'],
 })
 export class Match implements AfterViewInit {
-  center: google.maps.LatLngLiteral = { lat: 46.049235, lng: 14.511132 };
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  center: google.maps.LatLngLiteral = { lat: 46.049235, lng: 14.511132 }; // defaulta na LJ
   zoom = 12;
+
+  fromMarkerSet = false;
+  toMarkerSet = false;
+  fromMarker: google.maps.LatLngLiteral = { lat: 46.049235, lng: 14.511132 };
+  toMarker: google.maps.LatLngLiteral = { lat: 46.055, lng: 14.52 };
 
   @ViewChild('fromInput', { static: true }) fromInput!: ElementRef<HTMLInputElement>;
   @ViewChild('toInput', { static: true }) toInput!: ElementRef<HTMLInputElement>;
@@ -30,6 +37,13 @@ export class Match implements AfterViewInit {
           lat: place.geometry.location.lat(),
           lng: place.geometry.location.lng(),
         };
+        this.fromMarker = {
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng(),
+        }
+        this.fromMarkerSet = true;
+        this.cdr.detectChanges();
+        this.updateViewport();
       }
     });
 
@@ -40,7 +54,39 @@ export class Match implements AfterViewInit {
           lat: place.geometry.location.lat(),
           lng: place.geometry.location.lng(),
         };
+        this.toMarker = {
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng(),
+        }
+        this.toMarkerSet = true;
+        this.cdr.detectChanges();
+        this.updateViewport();
       }
     });
+  }
+
+  private updateViewport() {
+    if (!this.fromMarkerSet || !this.toMarkerSet) return;
+
+    const bounds = new google.maps.LatLngBounds();
+    bounds.extend(this.fromMarker);
+    bounds.extend(this.toMarker);
+
+    // Center is the bounds center
+    this.center = {
+      lat: bounds.getCenter().lat(),
+      lng: bounds.getCenter().lng(),
+    };
+
+    const latDiff = Math.abs(this.fromMarker.lat - this.toMarker.lat);
+    const lngDiff = Math.abs(this.fromMarker.lng - this.toMarker.lng);
+    const maxDiff = Math.max(latDiff, lngDiff);
+
+    // Rough zoom approximation (you can tweak the factor)
+    this.zoom = maxDiff < 0.01 ? 14 :
+      maxDiff < 0.05 ? 12 :
+        maxDiff < 0.2  ? 10 : 8;
+
+    this.cdr.detectChanges();
   }
 }

@@ -1,0 +1,20 @@
+<div class="drive-page">
+  <h2>Create a ride</h2>
+
+  <div class="map-container">
+    <form>
+      <label>From</label>
+      <input #fromInput type="text" placeholder="Enter starting location" />
+
+      <label>To</label>
+      <input #toInput type="text" placeholder="Enter destination" />
+
+      <button type="button">Create ride</button>
+    </form>
+
+    <google-map [center]="center" [zoom]="zoom">
+      <map-marker *ngIf="fromMarkerSet" [position]="fromMarker"></map-marker>
+      <map-marker *ngIf="toMarkerSet" [position]="toMarker"></map-marker>
+    </google-map>
+  </div>
+</div>
