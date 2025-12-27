@@ -7,8 +7,13 @@
 
       <label>To</label>
       <input #toInput type="text" placeholder="Enter destination" />
+
+      <button>Submit</button>
     </form>
 
-    <google-map [center]="center" [zoom]="zoom"></google-map>
+    <google-map [center]="center" [zoom]="zoom">
+      <map-marker *ngIf="fromMarkerSet" [position]="fromMarker"></map-marker>
+      <map-marker *ngIf="toMarkerSet" [position]="toMarker"></map-marker>
+    </google-map>
   </div>
 </div>
