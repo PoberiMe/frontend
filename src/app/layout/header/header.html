@@ -1,26 +1,29 @@
 <header class="header">
+  <h1 class="logo">poberi.me</h1>
+  <div class="mode-switch">
+    <button
+      [class.active]="mode === 'passenger'"
+      (click)="mode = 'passenger'"
+      routerLink="/match"
+    >
+      Find a ride
+    </button>
 
-    <h1 class="logo">poberi.me</h1>
-    <div class="mode-switch">
-      <button
-        [class.active]="mode === 'passenger'"
-        (click)="mode = 'passenger'"
-        routerLink="/match"
-      >
-        Find a ride
-      </button>
-
-      <button
-        [class.active]="mode === 'driver'"
-        (click)="mode = 'driver'"
-        routerLink="/drive"
-      >
-        Drive
-      </button>
+    <button
+      [class.active]="mode === 'driver'"
+      (click)="mode = 'driver'"
+      routerLink="/drive"
+    >
+      Drive
+    </button>
   </div>
-    <div class="button-box">
+  <div class="button-box">
+    @if (authService.isLoggedIn()) {
+      <span class="username">{{ authService.getCurrentUser()?.username }}</span>
+      <button (click)="authService.logout()">Logout</button>
+    } @else {
       <button routerLink="/login">Login</button>
       <button routerLink="/register">Register</button>
-    </div>
-
+    }
+  </div>
 </header>
