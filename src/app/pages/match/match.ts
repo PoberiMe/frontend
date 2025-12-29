@@ -1,16 +1,20 @@
 import { Component, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
-import { NgIf } from '@angular/common';
+import {Route} from '../../core/services/route';
+import {MatchRequest, RouteResponse} from '../../core/models/route';
 
 @Component({
   selector: 'app-match',
-  imports: [FormsModule, GoogleMapsModule, NgIf],
+  imports: [FormsModule, GoogleMapsModule],
   templateUrl: './match.html',
   styleUrls: ['./match.css'],
 })
 export class Match implements AfterViewInit {
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private routeService: Route
+  ) {}
 
   center: google.maps.LatLngLiteral = { lat: 46.049235, lng: 14.511132 }; // defaulta na LJ
   zoom = 12;
@@ -32,6 +36,7 @@ export class Match implements AfterViewInit {
 
     this.fromAutocomplete.addListener('place_changed', () => {
       const place = this.fromAutocomplete.getPlace();
+      console.log(place);
       if (place.geometry?.location) {
         this.center = {
           lat: place.geometry.location.lat(),
@@ -42,6 +47,7 @@ export class Match implements AfterViewInit {
           lng: place.geometry.location.lng(),
         }
         this.fromMarkerSet = true;
+
         this.cdr.detectChanges();
         this.updateViewport();
       }
@@ -88,5 +94,34 @@ export class Match implements AfterViewInit {
         maxDiff < 0.2  ? 10 : 8;
 
     this.cdr.detectChanges();
+  }
+
+  startTime = '';
+  endTime = '';
+  radius = 500;
+  matchedRoutes: RouteResponse[] = [];
+
+  searchRides() {
+    if (!this.fromMarkerSet || !this.toMarkerSet || !this.startTime || !this.endTime) {
+      alert('Please fill all fields');
+      return;
+    }
+
+    const matchRequest: MatchRequest = {
+      startLocation: this.fromMarker,
+      endLocation: this.toMarker,
+      startTime: this.startTime,
+      endTime: this.endTime,
+      radius: this.radius,
+    };
+
+    this.routeService.matchRoutes(matchRequest).subscribe({
+      next: (routes) => {
+        console.log('Matched routes:', routes);
+        this.matchedRoutes = routes;
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Error:', err)
+    });
   }
 }
