@@ -1,4 +1,90 @@
 .match-page {
-  padding: 20px 40px;
+  padding: 24px 40px;
+  background: #f7f8fa;
 }
 
+.map-container {
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.search-card {
+  background: white;
+  padding: 24px;
+  width: 360px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.search-card label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #444;
+}
+
+.search-card input {
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.search-card input:focus {
+  outline: none;
+  border-color: #000;
+}
+
+.search-card button {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 999px;
+  border: none;
+  background: #111;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.search-card button:hover {
+  background: #000;
+}
+
+.map {
+  flex: 1;
+  height: 520px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.results {
+  margin-top: 32px;
+}
+
+.routes {
+  display: grid;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.route-card {
+  background: white;
+  padding: 16px 20px;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.route-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.route-time {
+  font-size: 14px;
+  color: #666;
+}

@@ -6,6 +6,8 @@ export interface Location {
 export interface RideRequest {
   startLocation: Location;
   endLocation: Location;
+  startName: string;
+  endName: string;
   rideTime: string;
   passengerIds: number[];
   driverId: number;
@@ -18,4 +20,6 @@ export interface RideResponse {
   endLocation: Location;
   rideTime: string;
   passengerIds: number[];
+  startName: string;
+  endName: string;
 }

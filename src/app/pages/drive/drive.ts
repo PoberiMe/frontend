@@ -34,6 +34,9 @@ export class Drive implements AfterViewInit {
   fromMarker!: google.maps.LatLngLiteral;
   toMarker!: google.maps.LatLngLiteral;
 
+  fromName = "";
+  toName = "";
+
   rideTime = '';
 
   @ViewChild('fromInput', { static: true }) fromInput!: ElementRef<HTMLInputElement>;
@@ -55,6 +58,7 @@ export class Drive implements AfterViewInit {
         lng: place.geometry.location.lng(),
       };
       this.fromMarkerSet = true;
+      this.fromName = place.name ?? "";
 
       this.updateViewport();
     });
@@ -68,7 +72,7 @@ export class Drive implements AfterViewInit {
         lng: place.geometry.location.lng(),
       };
       this.toMarkerSet = true;
-
+      this.toName = place.name ?? "";
       this.updateViewport();
     });
   }
@@ -116,6 +120,8 @@ export class Drive implements AfterViewInit {
     const rideRequest: RideRequest = {
       startLocation: this.fromMarker,
       endLocation: this.toMarker,
+      startName: this.fromName,
+      endName: this.toName,
       rideTime: this.rideTime,
       passengerIds: [],
       driverId: this.authService.getUserId()!

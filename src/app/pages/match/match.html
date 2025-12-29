@@ -1,7 +1,8 @@
 <div class="match-page">
   <h2>Find a matching ride</h2>
+
   <div class="map-container">
-    <form>
+    <form class="search-card">
       <label>From</label>
       <input #fromInput type="text" placeholder="Enter starting location" />
 
@@ -20,7 +21,9 @@
       <button type="button" (click)="searchRides()">Search</button>
     </form>
 
-    <google-map [center]="center" [zoom]="zoom">
+    <google-map class="map"
+                [center]="center"
+                [zoom]="zoom">
       @if (fromMarkerSet) {
         <map-marker [position]="fromMarker"></map-marker>
       }
@@ -33,12 +36,15 @@
   @if (matchedRoutes.length > 0) {
     <div class="results">
       <h3>Matched Rides</h3>
-      @for (route of matchedRoutes; track route.id) {
-        <div class="route-card">
-          <p>Route ID: {{ route.id }}</p>
-          <p>Time: {{ route.startTime }}</p>
-        </div>
-      }
+
+      <div class="routes">
+        @for (route of matchedRoutes; track route.id) {
+          <div class="route-card">
+            <p class="route-title">Route #{{ route.id }}</p>
+            <p class="route-time">{{ route.startTime }}</p>
+          </div>
+        }
+      </div>
     </div>
   }
 </div>
