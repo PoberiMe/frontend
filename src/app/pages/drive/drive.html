@@ -9,12 +9,19 @@
       <label>To</label>
       <input #toInput type="text" placeholder="Enter destination" />
 
-      <button type="button">Create ride</button>
+      <label>When</label>
+      <input type="datetime-local" [(ngModel)]="rideTime" name="rideTime" />
+
+      <button type="button" (click)="createRide()">Create ride</button>
     </form>
 
     <google-map [center]="center" [zoom]="zoom">
-      <map-marker *ngIf="fromMarkerSet" [position]="fromMarker"></map-marker>
-      <map-marker *ngIf="toMarkerSet" [position]="toMarker"></map-marker>
+      @if (fromMarkerSet) {
+        <map-marker [position]="fromMarker"></map-marker>
+      }
+      @if (toMarkerSet) {
+        <map-marker [position]="toMarker"></map-marker>
+      }
     </google-map>
   </div>
 </div>

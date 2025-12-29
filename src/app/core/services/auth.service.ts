@@ -40,9 +40,9 @@ export class AuthService {
     return jwtDecode<JwtPayload>(token);
   }
 
-  getUserId(): string | null {
+  getUserId(): number | null {
     const user = this.getCurrentUser();
-    return user?.sub || null;
+    return user?.sub ? Number(user.sub) : null;
   }
 
   isLoggedIn(): boolean {

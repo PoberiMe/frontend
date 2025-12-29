@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
@@ -9,7 +9,13 @@ import { AuthService } from '../../core/services/auth.service';
   styleUrl: './header.css',
 })
 export class Header {
-  mode: 'passenger' | 'driver' = 'passenger';
+  constructor(
+    public authService: AuthService,
+    private router: Router
+  ) {
+  }
 
-  constructor(public authService: AuthService) {}
+  isActive(route: string): boolean {
+    return this.router.url === route;
+  }
 }

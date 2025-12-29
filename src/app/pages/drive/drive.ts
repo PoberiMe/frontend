@@ -7,17 +7,23 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
-import { NgIf } from '@angular/common';
+import {Ride} from '../../core/services/ride';
+import {AuthService} from '../../core/services/auth.service';
+import {RideRequest, RideResponse} from '../../core/models/ride';
 
 @Component({
   selector: 'app-drive',
-  imports: [FormsModule, GoogleMapsModule, NgIf],
+  imports: [FormsModule, GoogleMapsModule],
   templateUrl: './drive.html',
   styleUrls: ['./drive.css'],
 })
 export class Drive implements AfterViewInit {
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private rideService: Ride,
+    private authService: AuthService,
+  ) {}
 
   center: google.maps.LatLngLiteral = { lat: 46.049235, lng: 14.511132 }; // Ljubljana
   zoom = 12;
@@ -27,6 +33,8 @@ export class Drive implements AfterViewInit {
 
   fromMarker!: google.maps.LatLngLiteral;
   toMarker!: google.maps.LatLngLiteral;
+
+  rideTime = '';
 
   @ViewChild('fromInput', { static: true }) fromInput!: ElementRef<HTMLInputElement>;
   @ViewChild('toInput', { static: true }) toInput!: ElementRef<HTMLInputElement>;
@@ -95,4 +103,29 @@ export class Drive implements AfterViewInit {
 
     this.cdr.detectChanges();
   }
+
+
+
+  createRide() {
+    if (!this.fromMarkerSet || !this.toMarkerSet || !this.rideTime) {
+      alert("All fields are mandatory.");
+      return;
+    }
+
+
+    const rideRequest: RideRequest = {
+      startLocation: this.fromMarker,
+      endLocation: this.toMarker,
+      rideTime: this.rideTime,
+      passengerIds: [],
+      driverId: this.authService.getUserId()!
+    };
+
+    this.rideService.createRide(rideRequest).subscribe({
+      next: (response: RideResponse) => console.log('Ride created:', response),
+      error: (err: any) => console.error('Error:', err)
+    });
+  }
+
+
 }

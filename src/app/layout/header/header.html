@@ -2,16 +2,14 @@
   <h1 class="logo">poberi.me</h1>
   <div class="mode-switch">
     <button
-      [class.active]="mode === 'passenger'"
-      (click)="mode = 'passenger'"
+      [class.active]="isActive('/match')"
       routerLink="/match"
     >
       Find a ride
     </button>
 
     <button
-      [class.active]="mode === 'driver'"
-      (click)="mode = 'driver'"
+      [class.active]="isActive('/drive')"
       routerLink="/drive"
     >
       Drive
