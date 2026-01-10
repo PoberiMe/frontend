@@ -10,14 +10,17 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import {Ride} from '../../core/services/ride';
 import {AuthService} from '../../core/services/auth.service';
 import {RideRequest, RideResponse} from '../../core/models/ride';
+import {RideCard} from '../../shared/ride-card/ride-card';
 
 @Component({
   selector: 'app-drive',
-  imports: [FormsModule, GoogleMapsModule],
+  imports: [FormsModule, GoogleMapsModule, RideCard],
   templateUrl: './drive.html',
   styleUrls: ['./drive.css'],
 })
 export class Drive implements AfterViewInit {
+
+  rides: RideResponse[] = [];
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -75,6 +78,9 @@ export class Drive implements AfterViewInit {
       this.toName = place.name ?? "";
       this.updateViewport();
     });
+
+    // fetch rides
+    this.fetchMyRides();
   }
 
   private updateViewport() {
@@ -128,8 +134,29 @@ export class Drive implements AfterViewInit {
     };
 
     this.rideService.createRide(rideRequest).subscribe({
-      next: (response: RideResponse) => console.log('Ride created:', response),
-      error: (err: any) => console.error('Error:', err)
+      next: (createdRide: RideResponse) => {
+        this.rides = [...this.rides, createdRide];
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  fetchMyRides() {
+    const driverId = this.authService.getUserId();
+    if (!driverId) {
+      console.warn('User not logged in');
+      return;
+    }
+
+    this.rideService.getRidesCreatedByDriver(driverId).subscribe({
+      next: rides => {
+        this.rides = rides;
+        this.cdr.detectChanges();
+        console.log('My rides:', rides);
+      },
+      error: err => {
+        console.error('Failed to fetch rides', err);
+      }
     });
   }
 

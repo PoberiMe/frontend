@@ -5,19 +5,19 @@
       [class.active]="isActive('/match')"
       routerLink="/match"
     >
-      Find a ride
+      Match
     </button>
 
     <button
       [class.active]="isActive('/drive')"
       routerLink="/drive"
     >
-      Drive
+      Create
     </button>
   </div>
   <div class="button-box">
     @if (authService.isLoggedIn()) {
-      <span class="username">{{ authService.getCurrentUser()?.username }}</span>
+      <button>Profile</button>
       <button (click)="authService.logout()">Logout</button>
     } @else {
       <button routerLink="/login">Login</button>

@@ -3,10 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 import {Route} from '../../core/services/route';
 import {MatchRequest, RouteResponse} from '../../core/models/route';
+import {RideCard} from '../../shared/ride-card/ride-card';
+import {RouteCard} from '../../shared/route-card/route-card';
 
 @Component({
   selector: 'app-match',
-  imports: [FormsModule, GoogleMapsModule],
+  imports: [FormsModule, GoogleMapsModule, RideCard, RouteCard],
   templateUrl: './match.html',
   styleUrls: ['./match.css'],
 })
@@ -97,21 +99,21 @@ export class Match implements AfterViewInit {
   }
 
   startTime = '';
-  endTime = '';
   radius = 500;
   matchedRoutes: RouteResponse[] = [];
 
   searchRides() {
-    if (!this.fromMarkerSet || !this.toMarkerSet || !this.startTime || !this.endTime) {
+    if (!this.fromMarkerSet || !this.toMarkerSet || !this.startTime) {
       alert('Please fill all fields');
       return;
     }
 
+    const base = new Date(this.startTime);
     const matchRequest: MatchRequest = {
       startLocation: this.fromMarker,
       endLocation: this.toMarker,
-      startTime: this.startTime,
-      endTime: this.endTime,
+      startTime: new Date(base.getTime() - 16 * 60 * 60 * 1000).toISOString(),
+      endTime: new Date(base.getTime() + 16 * 60 * 60 * 1000).toISOString(),
       radius: this.radius,
     };
 
@@ -122,6 +124,14 @@ export class Match implements AfterViewInit {
         this.cdr.detectChanges();
       },
       error: (err) => console.error('Error:', err)
+    });
+  }
+
+  requestJoinRoute(routeId: number) {
+    // @ts-ignore
+    this.routeService.requestJoin(routeId).subscribe({
+      next: () => console.log('Join requested'),
+      error: (err: any) => console.error(err)
     });
   }
 }

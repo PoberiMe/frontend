@@ -13,4 +13,8 @@ export class Ride {
   createRide(rideRequest: RideRequest) {
     return this.http.post<RideResponse>(this.apiUrl, rideRequest);
   }
+
+  getRidesCreatedByDriver(driverId: number) {
+    return this.http.get<[RideResponse]>(`${this.apiUrl}/drivers/${driverId}`);
+  }
 }

@@ -2,18 +2,16 @@
   <h2>Find a matching ride</h2>
 
   <div class="map-container">
-    <form class="search-card">
+    <form class="card">
       <label>From</label>
       <input #fromInput type="text" placeholder="Enter starting location" />
 
       <label>To</label>
       <input #toInput type="text" placeholder="Enter destination" />
 
-      <label>Start Time</label>
+      <label>When?</label>
       <input type="datetime-local" [(ngModel)]="startTime" name="startTime" />
 
-      <label>End Time</label>
-      <input type="datetime-local" [(ngModel)]="endTime" name="endTime" />
 
       <label>Radius (meters)</label>
       <input type="number" [(ngModel)]="radius" name="radius" placeholder="500" />
@@ -21,30 +19,31 @@
       <button type="button" (click)="searchRides()">Search</button>
     </form>
 
-    <google-map class="map"
-                [center]="center"
-                [zoom]="zoom">
-      @if (fromMarkerSet) {
-        <map-marker [position]="fromMarker"></map-marker>
-      }
-      @if (toMarkerSet) {
-        <map-marker [position]="toMarker"></map-marker>
-      }
-    </google-map>
-  </div>
+
+      <google-map class="map"
+                  [center]="center"
+                  [zoom]="zoom">
+        @if (fromMarkerSet) {
+          <map-marker [position]="fromMarker"></map-marker>
+        }
+        @if (toMarkerSet) {
+          <map-marker [position]="toMarker"></map-marker>
+        }
+      </google-map>
+    </div>
+
 
   @if (matchedRoutes.length > 0) {
     <div class="results">
       <h3>Matched Rides</h3>
 
-      <div class="routes">
+      <div class="results">
         @for (route of matchedRoutes; track route.id) {
-          <div class="route-card">
-            <p class="route-title">Route #{{ route.id }}</p>
-            <p class="route-time">{{ route.startTime }}</p>
-          </div>
+          <app-route-card [route]="route" (join)="requestJoinRoute($event)"></app-route-card>
         }
       </div>
     </div>
+  } @else {
+    <p>No matches found.</p>
   }
 </div>

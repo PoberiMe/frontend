@@ -1,0 +1,22 @@
+<div class="card">
+  <div class="locations">
+    <div class="point">
+      <span class="label">From</span>
+      <span class="value">{{ route.startName }}</span>
+    </div>
+
+    <div class="arrow">→</div>
+
+    <div class="point">
+      <span class="label">To</span>
+      <span class="value">{{ route.endName }}</span>
+    </div>
+  </div>
+
+  <div class="meta">
+    <span class="time"> {{ route.startTime | date:'dd. MM. yyyy HH:mm' }}</span>
+    <button class="join-btn" (click)="requestJoin()">
+      Request to join
+    </button>
+  </div>
+</div>

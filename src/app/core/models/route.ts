@@ -17,4 +17,6 @@ export interface RouteResponse {
   endLocation: Location;
   startTime: string;
   rideId: number;
+  startName: string;
+  endName: string;
 }

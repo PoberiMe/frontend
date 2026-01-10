@@ -1,0 +1,46 @@
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 500px;
+  margin: 12px 0;
+}
+
+.locations {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.point {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 12px;
+  color: #777;
+}
+
+.value {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.arrow {
+  font-size: 20px;
+  color: #aaa;
+}
+
+.meta {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #555;
+}
