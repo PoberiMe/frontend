@@ -33,6 +33,11 @@
     </div>
 
 
+  @if (successMessage.length > 0) {
+    <div class="success-message">
+      {{ successMessage }}
+    </div>
+  }
   @if (matchedRoutes.length > 0) {
     <div class="results">
       <h3>Matched Rides</h3>

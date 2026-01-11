@@ -17,4 +17,11 @@ export class Ride {
   getRidesCreatedByDriver(driverId: number) {
     return this.http.get<[RideResponse]>(`${this.apiUrl}/drivers/${driverId}`);
   }
+
+  joinRide(rideId: number, passengerId: number) {
+    return this.http.patch<RideResponse>(
+      `${this.apiUrl}/${rideId}/passengers/${passengerId}`,
+      null
+    );
+  }
 }

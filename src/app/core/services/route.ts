@@ -13,9 +13,4 @@ export class Route {
   matchRoutes(matchRequest: MatchRequest) {
     return this.http.post<RouteResponse[]>(`${this.apiUrl}/match`, matchRequest);
   }
-
-  requestJoin(routeId: number) {
-    console.log("requestJoin", routeId);
-    return null;
-  }
 }

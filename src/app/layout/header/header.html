@@ -18,9 +18,9 @@
   <div class="button-box">
     @if (authService.isLoggedIn()) {
       <button>Profile</button>
-      <button (click)="authService.logout()">Logout</button>
+      <button (click)="authService.logout()">Sign out</button>
     } @else {
-      <button routerLink="/login">Login</button>
+      <button routerLink="/login">Sign in</button>
       <button routerLink="/register">Register</button>
     }
   </div>

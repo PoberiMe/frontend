@@ -22,3 +22,12 @@
   border-radius: 16px;
   overflow: hidden;
 }
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 10px 16px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  margin-top: 12px;
+}

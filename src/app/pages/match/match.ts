@@ -5,6 +5,8 @@ import {Route} from '../../core/services/route';
 import {MatchRequest, RouteResponse} from '../../core/models/route';
 import {RideCard} from '../../shared/ride-card/ride-card';
 import {RouteCard} from '../../shared/route-card/route-card';
+import {Ride} from '../../core/services/ride';
+import {AuthService} from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-match',
@@ -15,7 +17,9 @@ import {RouteCard} from '../../shared/route-card/route-card';
 export class Match implements AfterViewInit {
   constructor(
     private cdr: ChangeDetectorRef,
-    private routeService: Route
+    private routeService: Route,
+    private rideService: Ride,
+    private authService: AuthService,
   ) {}
 
   center: google.maps.LatLngLiteral = { lat: 46.049235, lng: 14.511132 }; // defaulta na LJ
@@ -127,11 +131,34 @@ export class Match implements AfterViewInit {
     });
   }
 
-  requestJoinRoute(routeId: number) {
-    // @ts-ignore
-    this.routeService.requestJoin(routeId).subscribe({
-      next: () => console.log('Join requested'),
-      error: (err: any) => console.error(err)
+  successMessage = '';
+  requestJoinRoute(rideId: number) {
+    const userId = this.authService.getUserId();
+    if (!userId) {
+      console.warn('User is not logged in');
+      return;
+    }
+
+
+    this.rideService.joinRide(rideId, userId).subscribe({
+      next: (response: any) => {
+        console.log('Join successful', response);
+
+        // Show temporary success message
+        this.successMessage = `You have successfully joined the ride`;
+        this.cdr.detectChanges();
+
+        // Clear message after 3 seconds
+        setTimeout(() => {
+          this.successMessage = '';
+          this.cdr.detectChanges();
+        }, 3000);
+      },
+      error: (err) => {
+        console.error(err);
+      }
     });
+
+
   }
 }

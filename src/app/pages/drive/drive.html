@@ -30,5 +30,8 @@
     @for (ride of rides; track ride.id) {
       <app-ride-card [ride]="ride"></app-ride-card>
     }
+    @if (rides.length == 0) {
+      <p>No active rides are found.</p>
+    }
   </div>
 </div>
