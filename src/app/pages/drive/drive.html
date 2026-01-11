@@ -12,10 +12,13 @@
       <label>When</label>
       <input type="datetime-local" [(ngModel)]="rideTime" name="rideTime" />
 
+      <label>PassengerCount</label>
+      <input #countInput type="number" placeholder="Number" />
+
       <button type="button" (click)="createRide()">Create ride</button>
     </form>
 
-    <google-map [center]="center" [zoom]="zoom">
+    <google-map [center]="center" [zoom]="zoom" class="map">
       @if (fromMarkerSet) {
         <map-marker [position]="fromMarker"></map-marker>
       }

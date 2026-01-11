@@ -11,6 +11,7 @@ export interface RideRequest {
   rideTime: string;
   passengerIds: number[];
   driverId: number;
+  capacity: number;
 }
 
 export interface RideResponse {
@@ -22,4 +23,5 @@ export interface RideResponse {
   passengerIds: number[];
   startName: string;
   endName: string;
+  capacity: number;
 }

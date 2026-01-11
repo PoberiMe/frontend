@@ -4,8 +4,14 @@ import {Register} from './pages/register/register';
 import {Match} from './pages/match/match';
 import {Drive} from './pages/drive/drive';
 import {AuthGuard} from './core/guards/auth';
+import {Profile} from './pages/profile/profile';
 
 export const routes: Routes = [
+  {
+    path: 'profile',
+    canActivate: [AuthGuard],
+    component: Profile
+  },
   {
     path: '',
     redirectTo: 'match',

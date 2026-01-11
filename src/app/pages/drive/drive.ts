@@ -44,6 +44,8 @@ export class Drive implements AfterViewInit {
 
   @ViewChild('fromInput', { static: true }) fromInput!: ElementRef<HTMLInputElement>;
   @ViewChild('toInput', { static: true }) toInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('countInput', { static: true }) countInput!: ElementRef<HTMLInputElement>;
+
 
   fromAutocomplete!: google.maps.places.Autocomplete;
   toAutocomplete!: google.maps.places.Autocomplete;
@@ -122,6 +124,7 @@ export class Drive implements AfterViewInit {
       return;
     }
 
+    const passengerCount = Number(this.countInput.nativeElement.value);
 
     const rideRequest: RideRequest = {
       startLocation: this.fromMarker,
@@ -130,7 +133,8 @@ export class Drive implements AfterViewInit {
       endName: this.toName,
       rideTime: this.rideTime,
       passengerIds: [],
-      driverId: this.authService.getUserId()!
+      driverId: this.authService.getUserId()!,
+      capacity: passengerCount,
     };
 
     this.rideService.createRide(rideRequest).subscribe({

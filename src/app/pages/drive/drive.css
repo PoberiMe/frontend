@@ -6,3 +6,8 @@
   margin-bottom: 60px;
 }
 
+.map {
+  border-radius: 16px;
+  overflow: hidden;
+}
+

@@ -1,1 +1,15 @@
-<p>profile works!</p>
+<div class="profile-page">
+  <h2>My Joined Rides</h2>
+
+  @if (joinedRides.length === 0) {
+    <p>No joined rides yet.</p>
+  }
+
+  @for (ride of joinedRides; track ride.id) {
+    <app-ride-card
+      [ride]="ride"
+      [showLeaveButton]="true"
+      (leave)="leaveRide($event)">
+    </app-ride-card>
+  }
+</div>

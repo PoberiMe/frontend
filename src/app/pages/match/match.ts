@@ -7,6 +7,7 @@ import {RideCard} from '../../shared/ride-card/ride-card';
 import {RouteCard} from '../../shared/route-card/route-card';
 import {Ride} from '../../core/services/ride';
 import {AuthService} from '../../core/services/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-match',
@@ -20,7 +21,17 @@ export class Match implements AfterViewInit {
     private routeService: Route,
     private rideService: Ride,
     private authService: AuthService,
+    private router: Router
   ) {}
+
+  routeColors = [
+    'blue',
+    'red',
+    'green',
+    'purple',
+    'orange',
+    'pink'
+  ];
 
   center: google.maps.LatLngLiteral = { lat: 46.049235, lng: 14.511132 }; // defaulta na LJ
   zoom = 12;
@@ -29,6 +40,11 @@ export class Match implements AfterViewInit {
   toMarkerSet = false;
   fromMarker: google.maps.LatLngLiteral = { lat: 46.049235, lng: 14.511132 };
   toMarker: google.maps.LatLngLiteral = { lat: 46.055, lng: 14.52 };
+
+  routeMarkers: {
+    position: google.maps.LatLngLiteral;
+    icon: string;
+  }[] = [];
 
   @ViewChild('fromInput', { static: true }) fromInput!: ElementRef<HTMLInputElement>;
   @ViewChild('toInput', { static: true }) toInput!: ElementRef<HTMLInputElement>;
@@ -125,6 +141,18 @@ export class Match implements AfterViewInit {
       next: (routes) => {
         console.log('Matched routes:', routes);
         this.matchedRoutes = routes;
+
+        routes.forEach((route, index) => {
+          const color = this.routeColors[index % this.routeColors.length];
+
+          const icon = `http://maps.google.com/mapfiles/ms/icons/${color}-dot.png`;
+
+          this.routeMarkers.push(
+            { position: route.startLocation, icon },
+            { position: route.endLocation, icon }
+          );
+        });
+
         this.cdr.detectChanges();
       },
       error: (err) => console.error('Error:', err)
@@ -152,6 +180,7 @@ export class Match implements AfterViewInit {
         setTimeout(() => {
           this.successMessage = '';
           this.cdr.detectChanges();
+          this.router.navigate(['/profile']);
         }, 3000);
       },
       error: (err) => {

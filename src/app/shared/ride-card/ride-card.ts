@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {RideResponse} from '../../core/models/ride';
 import {DatePipe} from '@angular/common';
 
@@ -12,4 +12,6 @@ import {DatePipe} from '@angular/common';
 })
 export class RideCard {
   @Input({ required: true }) ride!: RideResponse;
+  @Input() showLeaveButton = false;
+  @Output() leave = new EventEmitter<number>();
 }

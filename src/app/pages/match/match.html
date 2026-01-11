@@ -29,6 +29,12 @@
         @if (toMarkerSet) {
           <map-marker [position]="toMarker"></map-marker>
         }
+        @for (m of routeMarkers; track $index) {
+          <map-marker
+            [position]="m.position"
+            [options]="{ icon: m.icon }">
+          </map-marker>
+        }
       </google-map>
     </div>
 

@@ -22,4 +22,9 @@
       Passengers: {{ ride.passengerIds.length }}
     </span>
   </div>
+  @if (showLeaveButton) {
+    <button (click)="leave.emit(ride.id)">
+      Leave ride
+    </button>
+  }
 </div>

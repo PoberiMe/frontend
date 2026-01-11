@@ -24,4 +24,18 @@ export class Ride {
       null
     );
   }
+
+  getRidesAsPassenger(passengerId: number) {
+    return this.http.get<RideResponse[]>(
+      `${this.apiUrl}`,
+      { params: { passengerId } }
+    );
+  }
+
+  leaveRide(rideId: number, passengerId: number) {
+    return this.http.patch<RideResponse>(
+      `${this.apiUrl}/${rideId}/passengers/${passengerId}/remove`,
+      {}
+    );
+  }
 }

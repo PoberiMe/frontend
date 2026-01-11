@@ -1,5 +1,5 @@
 <header class="header">
-  <h1 class="logo">poberi.me</h1>
+  <h1 class="logo" routerLink="/">poberi.me</h1>
   <div class="mode-switch">
     <button
       [class.active]="isActive('/match')"
@@ -17,7 +17,7 @@
   </div>
   <div class="button-box">
     @if (authService.isLoggedIn()) {
-      <button>Profile</button>
+      <button routerLink="/profile">Profile</button>
       <button (click)="authService.logout()">Sign out</button>
     } @else {
       <button routerLink="/login">Sign in</button>
