@@ -11,11 +11,12 @@ export class Ride {
   constructor(private http: HttpClient) {}
 
   createRide(rideRequest: RideRequest) {
+    console.log(rideRequest);
     return this.http.post<RideResponse>(this.apiUrl, rideRequest);
   }
 
-  getRidesCreatedByDriver(driverId: number) {
-    return this.http.get<[RideResponse]>(`${this.apiUrl}/drivers/${driverId}`);
+  getRidesCreatedByDriver(driverId: number, page: number = 0, size: number = 10) {
+    return this.http.get<any>(`${this.apiUrl}/drivers/${driverId}?page=${page}&size=${size}`);
   }
 
   joinRide(rideId: number, passengerId: number) {
@@ -25,11 +26,8 @@ export class Ride {
     );
   }
 
-  getRidesAsPassenger(passengerId: number) {
-    return this.http.get<RideResponse[]>(
-      `${this.apiUrl}`,
-      { params: { passengerId } }
-    );
+  getRidesAsPassenger(userId: number, page: number = 0, size: number = 10) {
+    return this.http.get<any>(`${this.apiUrl}?passengerId=${userId}&page=${page}&size=${size}`);
   }
 
   leaveRide(rideId: number, passengerId: number) {

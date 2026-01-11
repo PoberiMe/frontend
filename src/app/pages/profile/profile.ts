@@ -13,28 +13,34 @@ import {RideCard} from '../../shared/ride-card/ride-card';
   styleUrl: './profile.css',
 })
 export class Profile implements OnInit {
-
-  joinedRides: RideResponse[] = [];
-
+  
   constructor(
     private rideService: Ride,
     private authService: AuthService,
     private cdr: ChangeDetectorRef
   ) {}
 
+  joinedRides: RideResponse[] = [];
+  currentPage = 0;
+  pageSize = 10;
+  totalPages = 0;
+
   ngOnInit() {
+    this.loadPage(0);
+  }
+
+  loadPage(page: number) {
     const userId = this.authService.getUserId();
     if (!userId) return;
 
-    this.rideService.getRidesAsPassenger(userId).subscribe({
-      next: rides => {
-        console.log('Joined rides response:', rides);
-        this.joinedRides = rides;
+    this.rideService.getRidesAsPassenger(userId, page, this.pageSize).subscribe({
+      next: response => {
+        this.joinedRides = response.content;
+        this.currentPage = response.number;
+        this.totalPages = response.totalPages;
         this.cdr.detectChanges();
       },
-      error: err => {
-        console.error('Failed to load joined rides:', err);
-      }
+      error: err => console.error('Failed to load joined rides:', err)
     });
   }
 
@@ -42,8 +48,7 @@ export class Profile implements OnInit {
     const userId = this.authService.getUserId()!;
     this.rideService.leaveRide(rideId, userId).subscribe({
       next: () => {
-        this.joinedRides = this.joinedRides.filter(r => r.id !== rideId);
-        this.cdr.detectChanges();
+        this.loadPage(this.currentPage); // Reload current page
       }
     });
   }

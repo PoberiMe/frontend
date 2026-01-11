@@ -20,8 +20,6 @@ import {RideCard} from '../../shared/ride-card/ride-card';
 })
 export class Drive implements AfterViewInit {
 
-  rides: RideResponse[] = [];
-
   constructor(
     private cdr: ChangeDetectorRef,
     private rideService: Ride,
@@ -117,6 +115,29 @@ export class Drive implements AfterViewInit {
   }
 
 
+  rides: RideResponse[] = [];
+  currentPage = 0;
+  pageSize = 10;
+  totalPages = 0;
+
+  fetchMyRides() {
+    this.loadPage(0);
+  }
+
+  loadPage(page: number) {
+    const driverId = this.authService.getUserId();
+    if (!driverId) return;
+
+    this.rideService.getRidesCreatedByDriver(driverId, page, this.pageSize).subscribe({
+      next: response => {
+        this.rides = response.content;
+        this.currentPage = response.number;
+        this.totalPages = response.totalPages;
+        this.cdr.detectChanges();
+      },
+      error: err => console.error('Failed to fetch rides', err)
+    });
+  }
 
   createRide() {
     if (!this.fromMarkerSet || !this.toMarkerSet || !this.rideTime) {
@@ -139,27 +160,7 @@ export class Drive implements AfterViewInit {
 
     this.rideService.createRide(rideRequest).subscribe({
       next: (createdRide: RideResponse) => {
-        this.rides = [...this.rides, createdRide];
-        this.cdr.detectChanges();
-      }
-    });
-  }
-
-  fetchMyRides() {
-    const driverId = this.authService.getUserId();
-    if (!driverId) {
-      console.warn('User not logged in');
-      return;
-    }
-
-    this.rideService.getRidesCreatedByDriver(driverId).subscribe({
-      next: rides => {
-        this.rides = rides;
-        this.cdr.detectChanges();
-        console.log('My rides:', rides);
-      },
-      error: err => {
-        console.error('Failed to fetch rides', err);
+        this.loadPage(this.currentPage); // Reload current page
       }
     });
   }

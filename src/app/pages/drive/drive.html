@@ -37,4 +37,12 @@
       <p>No active rides are found.</p>
     }
   </div>
+
+  @if (totalPages > 1) {
+    <div class="pagination">
+      <button [disabled]="currentPage === 0" (click)="loadPage(currentPage - 1)">Previous</button>
+      <span>Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+      <button [disabled]="currentPage === totalPages - 1" (click)="loadPage(currentPage + 1)">Next</button>
+    </div>
+  }
 </div>
