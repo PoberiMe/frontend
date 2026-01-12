@@ -11,7 +11,6 @@ export class Ride {
   constructor(private http: HttpClient) {}
 
   createRide(rideRequest: RideRequest) {
-    console.log(rideRequest);
     return this.http.post<RideResponse>(this.apiUrl, rideRequest);
   }
 

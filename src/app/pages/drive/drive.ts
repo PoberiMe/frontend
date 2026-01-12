@@ -130,9 +130,10 @@ export class Drive implements AfterViewInit {
 
     this.rideService.getRidesCreatedByDriver(driverId, page, this.pageSize).subscribe({
       next: response => {
-        this.rides = response.content;
         this.currentPage = response.number;
         this.totalPages = response.totalPages;
+        console.log(response);
+        this.rides = response.content;
         this.cdr.detectChanges();
       },
       error: err => console.error('Failed to fetch rides', err)
@@ -160,8 +161,10 @@ export class Drive implements AfterViewInit {
 
     this.rideService.createRide(rideRequest).subscribe({
       next: (createdRide: RideResponse) => {
+        console.log('Ride created:', createdRide);
         this.loadPage(this.currentPage); // Reload current page
-      }
+      },
+      error: (err) => console.error('Error creating ride:', err)
     });
   }
 
